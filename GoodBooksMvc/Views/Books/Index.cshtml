@@ -1,0 +1,33 @@
+﻿@model List<Book>
+@{
+    string CookieString = ViewData["favoritedBooks"] as string;
+    var favoritedBooksList = new List<String>();
+
+    foreach(var e in CookieString.Split(","))
+    {
+        favoritedBooksList.Add(e);
+    }
+}
+<h1>Selected</h1>
+@foreach(var e in Model)
+{
+    if(favoritedBooksList.Contains(e.Title))
+    {
+        <form action="/books/compare/remove/@e.Id">
+            <button type="submit" class="gg-trash"></button>
+        </form>
+        <p>@e.Title</p>
+    }
+}
+<ul>
+@foreach(var e in Model)
+{
+    if(!favoritedBooksList.Contains(e.Title))
+        {
+            <form action="/books/compare/@e.Id">
+                <button type="submit" class="gg-comment"></button>
+            </form>
+        }
+    <li>@e.Title</li>
+}
+</ul>
